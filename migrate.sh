@@ -4,7 +4,8 @@
 set -e
 
 # Change to the script directory
-cd "${0%/*}"
+realfile=$(readlink -f migrations/migrate.sh)
+cd "${realfile%/*}"
 
 FIRST_REVISION='00000000'
 PSQL="psql $DATABASE_URI -v ON_ERROR_STOP=1 -Xqt"
