@@ -1,14 +1,13 @@
-# migrash
+# migrashon
 Very simple migration tool for PostgreSQL, written only in BASH script and SQL.
 
 ## But why?
 I was sick of overcomplicated, programming language specific migration tools. 
-And I was up for a fun, small programming project. So I made migrash.
+And I was up for a fun, small programming project. So I made migrashion.
 
 ## What does the name mean?
-Migrate and Shell, mashed up into one word. I pronounce it as "mih-grawsh".
-I know it's Hebrew (מִגְרָשׁ) (haha try to select that, Unicode right-to-left is 
-funny right) for common/open land but that's unrelated.
+Migration and Shell, mashed up into one word. It used to be called migrash, but
+that ended on rash and that wasn't great. It's pronounced like migration.
 
 ## How do I use it?
 First, back up your database. Back it up every time you use this tool for God's
