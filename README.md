@@ -7,7 +7,8 @@ And I was up for a fun, small programming project. So I made migrash.
 
 ## What does the name mean?
 Migrate and Shell, mashed up into one word. I pronounce it as "mih-grawsh".
-I know it's Hebrew (מִגְרָשׁ) for common/open land but that's unrelated.
+I know it's Hebrew (מִגְרָשׁ) (haha try to select that, Unicode right-to-left is 
+funny right) for common/open land but that's unrelated.
 
 ## How do I use it?
 First, back up your database. Back it up every time you use this tool for God's
