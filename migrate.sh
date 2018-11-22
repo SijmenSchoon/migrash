@@ -4,7 +4,7 @@
 set -e
 
 # Change to the script directory
-realfile=$(readlink -f migrations/migrate.sh)
+realfile=$(readlink -f $0)
 cd "${realfile%/*}"
 
 FIRST_REVISION='00000000'
