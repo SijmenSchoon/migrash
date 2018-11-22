@@ -61,10 +61,15 @@ function revision {
         tr -dc 'a-z0-9' < /dev/urandom | head -c8
     }
 
-    _initialize
-
     date=$(date '+%Y%M%d-%H%M')
     name=$(sed 's/[^[:alnum:]]\+/-/g' <<< "${1,,}")
+
+    if [ -z "$name" ]; then
+        echo "Please specify a revision name."
+        return 1
+    fi
+
+    _initialize
 
     # Make sure that the database is up to date.
     revision=$(get_next_revision)
@@ -79,7 +84,8 @@ function revision {
         next_revision=$(_generate_revision_code)
     done
 
-    cat << EOF > "versions/${date}_${revision}_${name}.sql"
+    filename="versions/${date}_${revision}_${name}.sql"
+    cat << EOF > $filename
 -- START OF MIGRATION --
 -- Put your migration here.
 
@@ -87,6 +93,18 @@ function revision {
 
 -- The revision to use for the next migration. Don't touch this.
 UPDATE "revision" SET "revision"='$next_revision';
+EOF
+
+    echo "Created new revision '$filename'"
+}
+
+function help {
+    cat << EOF
+initialize -- Initialize the database.
+upgrade    -- Upgrade the database to the latest revision.
+revision   -- Create a new revision.
+current    -- Show the current revision.
+help       -- It's me!
 EOF
 }
 
@@ -103,6 +121,9 @@ case $1 in
     revision) revision "${*:2}" ;;
 
     current) get_next_revision ;;
+    
+    help) help ;;
+    "") help ;;
 
     *) default $1 ;;
 esac
