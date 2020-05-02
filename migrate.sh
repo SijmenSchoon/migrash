@@ -4,15 +4,15 @@
 set -e
 
 # Change to the script directory
-realfile=$(readlink -f $0)
-cd "${realfile%/*}"
+realfile="$(readlink -f $0)"
+scriptdir="${realfile%/*}"
 
 FIRST_REVISION='00000000'
 PSQL="psql $DATABASE_URI -v ON_ERROR_STOP=1 -Xqt"
 export PGOPTIONS='--client-min-messages=warning'
 
 function _initialize {
-    $PSQL -v "first_revision='$FIRST_REVISION'" -f 'scripts/initialize.sql';
+    $PSQL -v "first_revision='$FIRST_REVISION'" -f "$scriptdir/scripts/initialize.sql";
 }
 
 function get_next_revision {
@@ -47,7 +47,7 @@ function upgrade {
         fi
 
         echo "Running $(ls $pattern)"
-        cat "scripts/header.sql" $pattern "scripts/footer.sql" | \
+        cat "$scriptdir/scripts/header.sql" $pattern "$scriptdir/scripts/footer.sql" | \
             $PSQL -v "revision='$next_revision'" > /dev/null
 
         next_revision=$(get_next_revision)
@@ -61,7 +61,7 @@ function revision {
         tr -dc 'a-z0-9' < /dev/urandom | head -c8
     }
 
-    date=$(date '+%Y%M%d-%H%M')
+    date=$(date '+%Y%m%d-%H%M')
     name=$(sed 's/[^[:alnum:]]\+/-/g' <<< "${1,,}")
 
     if [ -z "$name" ]; then
@@ -79,7 +79,7 @@ function revision {
     fi
 
     # Generate a new revision code, and check if it's not duplicate.
-    next_revision="00000000"
+    next_revision=$(_generate_revision_code)
     while [ -e $(_get_revision_file $next_revision) ]; do
         next_revision=$(_generate_revision_code)
     done
