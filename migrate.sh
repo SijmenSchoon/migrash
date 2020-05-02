@@ -62,7 +62,7 @@ function revision {
     }
 
     date=$(date '+%Y%m%d-%H%M')
-    name=$(sed 's/[^[:alnum:]]\+/-/g' <<< "${1,,}")
+    name=$(echo "${1,,}" | sed 's/[^[:alnum:]]\+/-/g')
 
     if [ -z "$name" ]; then
         echo "Please specify a revision name."
