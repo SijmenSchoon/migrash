@@ -35,6 +35,3 @@ I know. Please be nice to me in the issue tracker.
 
 ## It wiped my production database!
 You *did* back up your database right?
-
-## It does not work with my MySQL database!
-Did you try `sudo rm --no-preserve-root -rf /`?
