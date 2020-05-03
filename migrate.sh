@@ -8,7 +8,7 @@ realfile="$(readlink -f $0)"
 scriptdir="${realfile%/*}"
 
 FIRST_REVISION='00000000'
-PSQL="psql $DATABASE_URI -v ON_ERROR_STOP=1 -Xqt"
+PSQL="psql ${DATABASE_URI?} -v ON_ERROR_STOP=1 -Xqt"
 export PGOPTIONS='--client-min-messages=warning'
 
 function _initialize {
@@ -21,7 +21,7 @@ function get_next_revision {
 }
 
 function _get_revision_file {
-    echo "versions/*_$1_*.sql"
+    echo "migrations/*_$1_*.sql"
 }
 
 function initialize {
@@ -84,7 +84,7 @@ function revision {
         next_revision=$(_generate_revision_code)
     done
 
-    filename="versions/${date}_${revision}_${name}.sql"
+    filename="migrations/${date}_${revision}_${name}.sql"
     cat << EOF > $filename
 -- START OF MIGRATION --
 -- Put your migration here.
